@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Marketing Prediction</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .form-container {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container py-5">
+    <h1 class="text-center mb-4">Bank Marketing Prediction</h1>
+
+    {% if error %}
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 form-container">
+            <form method="POST" action="/">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="age">Age</label>
+                        <input type="number" class="form-control" id="age" name="age" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="job">Job</label>
+                        <select class="form-control" id="job" name="job" required>
+                            <option value="admin.">Admin</option>
+                            <option value="blue-collar">Blue Collar</option>
+                            <option value="entrepreneur">Entrepreneur</option>
+                            <option value="housemaid">Housemaid</option>
+                            <option value="management">Management</option>
+                            <option value="retired">Retired</option>
+                            <option value="self-employed">Self Employed</option>
+                            <option value="services">Services</option>
+                            <option value="student">Student</option>
+                            <option value="technician">Technician</option>
+                            <option value="unemployed">Unemployed</option>
+                            <option value="unknown">Unknown</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="marital">Marital Status</label>
+                        <select class="form-control" id="marital" name="marital" required>
+                            <option value="single">Single</option>
+                            <option value="married">Married</option>
+                            <option value="divorced">Divorced</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="education">Education</label>
+                        <select class="form-control" id="education" name="education" required>
+                            <option value="primary">Primary</option>
+                            <option value="secondary">Secondary</option>
+                            <option value="tertiary">Tertiary</option>
+                            <option value="unknown">Unknown</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="default">Has Credit in Default?</label>
+                        <select class="form-control" id="default" name="default" required>
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="balance">Balance (€)</label>
+                        <input type="number" class="form-control" id="balance" name="balance" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="housing">Has Housing Loan?</label>
+                        <select class="form-control" id="housing" name="housing" required>
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="loan">Has Personal Loan?</label>
+                        <select class="form-control" id="loan" name="loan" required>
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="contact">Contact Type</label>
+                        <select class="form-control" id="contact" name="contact" required>
+                            <option value="unknown">Unknown</option>
+                            <option value="telephone">Telephone</option>
+                            <option value="cellular">Cellular</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="day">Last Contact Day</label>
+                        <input type="number" min="1" max="31" class="form-control" id="day" name="day" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="month">Last Contact Month</label>
+                        <select class="form-control" id="month" name="month" required>
+                            <option value="jan">January</option>
+                            <option value="feb">February</option>
+                            <option value="mar">March</option>
+                            <option value="apr">April</option>
+                            <option value="may">May</option>
+                            <option value="jun">June</option>
+                            <option value="jul">July</option>
+                            <option value="aug">August</option>
+                            <option value="sep">September</option>
+                            <option value="oct">October</option>
+                            <option value="nov">November</option>
+                            <option value="dec">December</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="duration">Last Contact Duration (seconds)</label>
+                        <input type="number" class="form-control" id="duration" name="duration" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="campaign">Number of Contacts During Campaign</label>
+                        <input type="number" class="form-control" id="campaign" name="campaign" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="pdays">Days Since Last Contact (-1 if not previously contacted)</label>
+                        <input type="number" min="-1" class="form-control" id="pdays" name="pdays" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="previous">Number of Contacts Before This Campaign</label>
+                        <input type="number" class="form-control" id="previous" name="previous" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="poutcome">Outcome of Previous Marketing Campaign</label>
+                    <select class="form-control" id="poutcome" name="poutcome" required>
+                        <option value="unknown">Unknown</option>
+                        <option value="failure">Failure</option>
+                        <option value="success">Success</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Predict Subscription</button>
+            </form>
+
+            {% if show_results %}
+            <div class="result-container mt-4">
+                <h3>Prediction Results</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                Logistic Regression Prediction
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">{{ lr_prediction }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                SVM Prediction
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">{{ svm_prediction }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
